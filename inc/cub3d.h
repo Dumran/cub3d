@@ -21,6 +21,13 @@
 # define ON_EXPOSE		12
 # define ON_DESTROY		17
 
+# define FOV 			0.44
+
+# define DEG_E			0
+# define DEG_N			90
+# define DEG_W			180
+# define DEG_S			270
+
 # define M_WALL '1'
 # define M_FLOOR '0'
 # define M_NORTH 'N'
@@ -75,6 +82,7 @@ typedef struct s_vec
 typedef struct s_ray
 {
 	t_vec	player;
+	int		player_dir_degree;
 	t_vec	dir;
 	t_vec	side_dist;
 	t_vec	plane;
@@ -133,6 +141,10 @@ size_t	ft_arrfree_2d(void *arr);
 int		ft_isdigit_x(unsigned int idx, char *curr, void *param);
 int		ft_strevery(char *s, int (*f)(unsigned int i, char *s,
 		void *p), void *pass);
+int		is_valid_vertical_edge_char(unsigned int idx, char *c, void *p);
+bool	is_valid_edge_char(const char *const row);
+int		is_able_to_be_surrounded(unsigned int idx, char *c, void *p);
+double	deg_to_rad(double degree);
 
 // init
 t_map	*map_init(const char *file);
@@ -141,13 +153,17 @@ t_err	mlx_init_x(t_state *s);
 t_state	*state_init(const char **av);
 char	*ft_strrtrim(const char *s1, const char *set);
 int		ft_strany(char *s, int (*f)(unsigned int idx, char *str, void *ptr), void *pass);
-int		is_valid_vertical_edge(char *row);
 
 // map
 t_err	set_buf_by_miss_empty_line(int fd, char **buf);
 t_err	map_load_meta(t_state *s, int fd);
 t_err	map_load_data(t_state *s, int fd);
 t_err	map_load(t_state *s);
+t_err	map_validate_middle(t_state *s, char *val, int fd);
+
+
+// map validate
+t_err	map_validate_row_mid(t_state *s, char *row, char *prev);
 
 // map meta
 t_key	map_meta_get_key(char *buff);

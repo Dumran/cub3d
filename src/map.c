@@ -44,7 +44,12 @@ t_err	map_load_meta(t_state *s, int fd)
 	return (SUCCESS);
 }
 
-t_err	is_valid_mid(t_state *s, char *val, int fd)
+int	map_validate_vertical_edge(char *row)
+{
+	return (ft_strany(row, is_valid_vertical_edge_char, NULL));
+}
+
+t_err	map_validate_middle(t_state *s, char *val, int fd)
 {
 	char	*prev;
 	t_err	err;
@@ -59,7 +64,7 @@ t_err	is_valid_mid(t_state *s, char *val, int fd)
 		val = get_next_line(fd);
 		if (!val || *val == '\n')
 		{
-			err = is_valid_vertical_edge(prev);
+			err = map_validate_vertical_edge(prev);
 			if (err)
 				return (FAILURE);
 			break ;
@@ -69,7 +74,8 @@ t_err	is_valid_mid(t_state *s, char *val, int fd)
 			return (free(val), perr("right trimmed error"));
 		free(val);
 		val = right_trimmed;
-		// here
+		err = map_validate_row_mid(s, val, prev);
+		
 	}
 }
 
@@ -86,10 +92,10 @@ t_err	map_load_data(t_state *s, int fd)
 	free(buff);
 	if (!val)
 		return (perr("buff cannot be trimmed"));
-	err = is_valid_vertical_edge(val);
+	err = map_validate_vertical_edge(val);
 	if (err)
 		return (free(val), perr("invalid map near to vertical edge"));
-	err = is_valid_mid(val);
+	err = map_validate_middle(s, val, fd);
 	if (err)
 		return (free(val), perr("invalid map near to mid"));
 
@@ -100,7 +106,7 @@ t_err	map_load(t_state *s)
 	int		fd;
 	t_err	err;
 
-	fd = open(s->map->path, O_RDONLY);
+	fd = open(s->map.path, O_RDONLY);
 	if (fd == -1)
 		return (FAILURE);
 	err = map_load_meta(s, fd);
