@@ -4,7 +4,8 @@
 .DS_Store
 
 build/
-lib/
+lib/*
+!lib/libft
 
 *.out
 *.o
