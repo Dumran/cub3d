@@ -91,7 +91,7 @@ typedef struct s_state
 	void	*mlx;
 	void	*win;
 	t_img	win_img;
-	t_map	*map;
+	t_map	map;
 	t_ray	*ray;
 	t_img	*images;
 	t_list	*approved_textures;
@@ -139,11 +139,20 @@ t_map	*map_init(const char *file);
 t_ray	*ray_init(void);
 t_err	mlx_init_x(t_state *s);
 t_state	*state_init(const char **av);
+char	*ft_strrtrim(const char *s1, const char *set);
+int		ft_strany(char *s, int (*f)(unsigned int idx, char *str, void *ptr), void *pass);
+int		is_valid_vertical_edge(char *row);
+
+// map
+t_err	set_buf_by_miss_empty_line(int fd, char **buf);
+t_err	map_load_meta(t_state *s, int fd);
+t_err	map_load_data(t_state *s, int fd);
+t_err	map_load(t_state *s);
 
 // map meta
 t_key	map_meta_get_key(char *buff);
 size_t	map_meta_key_len(t_key key);
-t_err	map_meta_set_value(t_state *s, char *buff, int *meta_count, bool *loop);
+t_err	map_meta_set_value(t_state *s, char *buff);
 t_err	map_meta_set_color(t_state *s, t_key key, char *val);
 t_err	map_meta_invoke(t_state *s, t_key key, char *val);
 t_err	map_meta_set_texture(t_state *s, char *path, t_dir idx);

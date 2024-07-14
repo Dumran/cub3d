@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-t_err	map_meta_set_value(t_state *s, char *buff, int *meta_count, bool *loop)
+t_err	map_meta_set_value(t_state *s, char *buff)
 {
 	t_key	key;
 	char	*val;
@@ -17,12 +17,9 @@ t_err	map_meta_set_value(t_state *s, char *buff, int *meta_count, bool *loop)
 	val = ft_strtrim(buff + map_meta_key_len(key), " \t\v\f\r\n");
 	if (!val)
 		return (perr("trimmed value cannot be allocated"));
-	(*meta_count)--;
 	err = map_meta_invoke(s, key, val);
 	if (err)
 		return (free(val), FAILURE);
-	if (*meta_count == 0)
-		*loop = false;
 	return (free(val), SUCCESS);
 }
 
