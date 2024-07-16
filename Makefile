@@ -5,9 +5,10 @@ SRC_DIR			= src
 CMD_DIR			= cmd
 BUILD_DIR		= build
 BIN_DIR			= $(BUILD_DIR)/bin
-INC_DIR			= -Iinc -I$(MLX_DIR)
+INC_DIR			= -Iinc -I$(MLX_DIR) -I$(LIBFT_DIR)
 NAME				= $(BIN_DIR)/$(PROGRAM)
-SRCS				= src/err.c src/init.c src/util.c
+SRCS				= src/err.c src/init.c src/util.c src/hook_move.c src/hook.c \
+							src/map_meta.c src/map_validate.c src/map.c src/render.c
 OBJS				= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 CMD					= $(CMD_DIR)/$(PROGRAM).c
 RM					= rm -rf
@@ -61,10 +62,9 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	$(RM) $(OBJS)
-	make -s -C $(MLX_DIR) clean
 
 fclean: clean
-	$(RM) $(NAME) & wait
+	$(RM) $(NAME) $(LIBFT) & wait
 
 re: fclean
 	$(MAKE) all

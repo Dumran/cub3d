@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include "mlx.h"
 #include <math.h>
 
 size_t	ft_arrlen(void *arr)
@@ -11,7 +12,7 @@ size_t	ft_arrlen(void *arr)
 	return (i);
 }
 
-size_t	ft_arrfree_2d(void *arr)
+void	ft_arr_free_2d(void *arr)
 {
 	int	i;
 
@@ -107,4 +108,54 @@ bool	is_valid_edge_char(const char *const row)
 double	deg_to_rad(double degree)
 {
 	return (degree * M_PI / 180.0);
+}
+
+void	map_clear(t_state *s)
+{
+	ft_lstclear(&s->map->map, free);
+}
+
+void	pass(void *content)
+{
+	(void)content;
+}
+
+void	textures_dispose(t_state *s)
+{
+	t_list	*texture;
+	int		i;
+
+	i = 0;
+	texture =  s->approved_textures;
+	while (texture)
+	{
+		mlx_destroy_image(s->mlx, texture->content);
+		texture = texture->next;
+		i++;
+	}
+	if (s->win_img.img)
+		mlx_destroy_image(s->mlx, s->win_img.img);
+	ft_lstclear(&s->approved_textures, pass);
+}
+
+t_list	*ll_nod(t_list const *node, int index)
+{
+	// change this
+	if (index < 0)
+		return (0);
+	while (index-- > 0 && node->next)
+		node = node->next;
+	if (index > -1)
+		return (0);
+	return ((t_list *)node);
+}
+
+int	ft_isspace(int const c)
+{
+	return (c == ' ' \
+		|| c == '\t' \
+		|| c == '\n' \
+		|| c == '\v' \
+		|| c == '\f' \
+		|| c == '\r');
 }

@@ -43,34 +43,31 @@ t_ray	*ray_init(void)
 
 t_err	mlx_init_x(t_state *s)
 {
-	void	*mlx;
-	void	*win;
-
-	mlx = mlx_init();
-	if (!mlx)
+	s->mlx = mlx_init();
+	if (!s->mlx)
 		return (perr("mlx cannot be initialized"));
-	win = mlx_new_window(mlx, APP_W, APP_H, APP_NAME);
-	if (!win)
+	s->win = mlx_new_window(s->mlx, APP_W, APP_H, APP_NAME);
+	if (!s->win)
 		return (perr("win cannot be initialized"));
-	s->win_img.img = mlx_new_image(mlx, APP_W, APP_H);
+	s->win_img.img = mlx_new_image(s->mlx, APP_W, APP_H);
 	if (!s->win_img.img)
-		return (mlx_destroy_window(mlx, win), perr("win_img cannot init"));
-	s->win_img.addr = mlx_get_data_addr(s->win_img.img,
-		s->win_img.bits_per_pixel, s->win_img.size_line, s->win_img.endian);
+		return (mlx_destroy_window(s->mlx, s->win), perr("win_img cannot init"));
+	s->win_img.addr = (int *)mlx_get_data_addr(s->win_img.img,
+		&s->win_img.bits_per_pixel, &s->win_img.size_line, &s->win_img.endian);
 	if (!s->win_img.addr)
-		return (mlx_destroy_image(mlx, s->win_img.img),
-			mlx_destroy_window(mlx, win), perr("win_img_data cannot be init"));
+		return (mlx_destroy_image(s->mlx, s->win_img.img),
+			mlx_destroy_window(s->mlx, s->win), perr("win_img_data cannot be init"));
 	s->win_img.height = 0;
 	s->win_img.width = 0;
 	return (SUCCESS);
 }
 
-t_img	**imgs_init(t_state *s)
-{
+// t_img	**imgs_init(t_state *s)
+// {
 
-	if (!s)
-		return (NULL);
-}
+// 	if (!s)
+// 		return (NULL);
+// }
 
 t_state	*state_init(const char **av)
 {
@@ -89,6 +86,9 @@ t_state	*state_init(const char **av)
 	if (!s->ray)
 		return (free(s->map), free(s), NULL);
 	err = mlx_init_x(s);
+	if (err)
+		return (free(s->map), free(s), NULL);
+	err = map_load(s);
 	if (err)
 		return (free(s->map), free(s), NULL);
 	return (s);

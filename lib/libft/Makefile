@@ -25,11 +25,8 @@ FT_PRINTF_OBJS = $(FT_PRINTF_SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)
-	ar -rc $(NAME) $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)
-
-bonus: $(BONUS_OBJS)
-	ar -rc $(NAME) $(BONUS_OBJS)
+$(NAME): $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS) $(BONUS_OBJS)
+	ar -rc $(NAME) $(OBJS) $(BONUS_OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)
 
 clean:
 	$(RM) $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)

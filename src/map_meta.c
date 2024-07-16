@@ -1,4 +1,5 @@
 #include "cub3d.h"
+#include "mlx.h"
 
 t_err	map_meta_set_value(t_state *s, char *buff)
 {
@@ -49,7 +50,7 @@ size_t	map_meta_key_len(t_key key)
 	return (0);
 }
 
-t_err	rgb_set(char *val, unsigned int *color)
+t_err	rgb_set(char *val, int *color)
 {
 	char	**rgb;
 	int		arr[3];
@@ -58,15 +59,15 @@ t_err	rgb_set(char *val, unsigned int *color)
 	if (!rgb)
 		return (FAILURE);
 	if (ft_arrlen(rgb) != 3)
-		return (ft_arrfree_2d(rgb), FAILURE);
+		return (ft_arr_free_2d(rgb), FAILURE);
 	if (!(ft_strevery(rgb[0], ft_isdigit_x, NULL) &&
 		ft_strevery(rgb[1], ft_isdigit_x, NULL) &&
 		ft_strevery(rgb[2], ft_isdigit_x, NULL)))
-		return (ft_arrfree_2d(rgb), FAILURE);
+		return (ft_arr_free_2d(rgb), FAILURE);
 	arr[0] = ft_atoi(rgb[0]);
 	arr[1] = ft_atoi(rgb[1]);
 	arr[2] = ft_atoi(rgb[2]);
-	ft_arrfree_2d(rgb);
+	ft_arr_free_2d(rgb);
 	if (arr[0] > 255 || arr[1] > 255 || arr[2] > 255 ||
 		arr[0] < 0 || arr[1] < 0 || arr[2] < 0)
 		return (FAILURE);
@@ -79,13 +80,13 @@ t_err	map_meta_set_color(t_state *s, t_key key, char *val)
 
 	if (key == F)
 	{
-		err = rgb_set(val, s->floor);
+		err = rgb_set(val, &s->floor);
 		if (err)
 			return (perr("invalid color"));
 	}
 	else if (key == C)
 	{
-		err = rgb_set(val, s->ceiling);
+		err = rgb_set(val, &s->ceiling);
 		if (err)
 			return (perr("invalid color"));
 	}

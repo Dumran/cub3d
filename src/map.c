@@ -8,11 +8,11 @@ t_err	set_buf_by_miss_empty_line(int fd, char **buf)
 
 	while (true)
 	{
-		*tmp = get_next_line(fd);
-		if (*tmp)
+		tmp = get_next_line(fd);
+		if (!tmp)
 			return (FAILURE);
-		buf = ft_strtrim(tmp, " \t\v\f\r\n");
-		if (*buf)
+		*buf = ft_strtrim(tmp, " \t\v\f\r\n");
+		if (!(*buf))
 			return (free(tmp), FAILURE);
 		if ((*buf)[0] != '\0')
 			return (free(tmp), SUCCESS);
@@ -35,7 +35,7 @@ t_err	map_load_meta(t_state *s, int fd)
 	{
 		err = set_buf_by_miss_empty_line(fd, &buff);
 		if (err)
-			return (perr("buf cannot be allocated"));
+			return (perr("buf cannot be allocated 1"));
 		err = map_meta_set_value(s, buff);
 		if (err)
 			return (FAILURE);
@@ -52,20 +52,18 @@ int	map_validate_vertical_edge(char *row)
 t_err	map_validate_middle(t_state *s, char *val, int fd)
 {
 	char	*prev;
-	t_err	err;
 	char	*right_trimmed;
 
 	if (!val)
 		return (FAILURE);
 	while (true)
 	{
-		ft_lstadd_back(&s->map.map, ft_lstnew(val));
+		ft_lstadd_back(&s->map->map, ft_lstnew(val));
 		prev = val;
 		val = get_next_line(fd);
 		if (!val || *val == '\n')
 		{
-			err = map_validate_vertical_edge(prev);
-			if (err)
+			if (map_validate_vertical_edge(prev))
 				return (FAILURE);
 			break ;
 		}
@@ -74,9 +72,10 @@ t_err	map_validate_middle(t_state *s, char *val, int fd)
 			return (free(val), perr("right trimmed error"));
 		free(val);
 		val = right_trimmed;
-		err = map_validate_row_mid(s, val, prev);
-		
+		if (map_validate_row_mid(s, val, prev))
+			return (free(val), FAILURE);
 	}
+	return (SUCCESS);
 }
 
 t_err	map_load_data(t_state *s, int fd)
@@ -87,7 +86,7 @@ t_err	map_load_data(t_state *s, int fd)
 
 	err = set_buf_by_miss_empty_line(fd, &buff);
 	if (err)
-		return (perr("buf cannot be allocated"));
+		return (perr("buf cannot be allocated 2"));
 	val = ft_strrtrim(buff, " \t\v\f\r\n");
 	free(buff);
 	if (!val)
@@ -98,7 +97,10 @@ t_err	map_load_data(t_state *s, int fd)
 	err = map_validate_middle(s, val, fd);
 	if (err)
 		return (free(val), perr("invalid map near to mid"));
-
+	err = set_buf_by_miss_empty_line(fd, &buff);
+	if (err)
+		return (free(val), perr("buf cannot be allocated 3"));
+	return (SUCCESS);
 }
 
 t_err	map_load(t_state *s)
@@ -106,14 +108,16 @@ t_err	map_load(t_state *s)
 	int		fd;
 	t_err	err;
 
-	fd = open(s->map.path, O_RDONLY);
+	fd = open(s->map->path, O_RDONLY);
 	if (fd == -1)
 		return (FAILURE);
 	err = map_load_meta(s, fd);
 	if (err)
-		return (FAILURE);
+		return (close(fd), FAILURE);
 	err = map_load_data(s, fd);
 	if (err)
-		return (FAILURE);
+		return (close(fd), map_clear(s), FAILURE);
+	if (s->ray->player.x == 0)
+		return (close(fd), map_clear(s), perr("player error"));
 	return (SUCCESS);
 }

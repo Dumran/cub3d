@@ -1,6 +1,6 @@
 #include "cub3d.h"
+#include "mlx.h"
 #include <stdlib.h>
-
 
 bool	is_valid_file_ext(const char *file)
 {
@@ -26,4 +26,6 @@ int	main(int ac, const char **av)
 	state = state_init(av);
 	if (!state)
 		return (1);
+	hook_init(state);
+	mlx_loop(state->mlx);
 }
