@@ -1,7 +1,6 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "libft.h"
 # include <stdbool.h>
 # include <stdio.h>
 
@@ -46,7 +45,6 @@
 
 # define W_SPACE_SET	" \t\v\f\r\n"
 
-# define ESTR_INV_ARG	"invalid argument count"
 # define ESTR_ASSERT_	"unexpected error"
 
 typedef enum e_err
@@ -136,5 +134,10 @@ t_err		perr(const char *msg);
 // init
 t_err		game_init(t_game *game, const char *path);
 t_err		mlx_init_x(t_game *game);
+t_err		map_init(t_game *game, const char *path);
+t_err		scr_img_init(t_game *game);
+
+// file
+bool		file_ext_validate(const char *path, const char *ext);
 
 #endif

@@ -7,7 +7,7 @@ int	main(int ac, char **av)
 	(void)av;
 
 	if (ac != 2)
-		return (perr(ESTR_INV_ARG));
+		return (perr("invalid argument count"));
 	game = &(t_game){0};
 	err = game_init(game, av[1]);
 	if (err)

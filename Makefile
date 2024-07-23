@@ -7,8 +7,9 @@ BUILD_DIR		= build
 BIN_DIR			= $(BUILD_DIR)/bin
 INC_DIR			= -Iinc -I$(MLX_DIR) -I$(LIBFT_DIR)
 NAME				= $(BIN_DIR)/$(PROGRAM)
-SRCS				= src/err.c
-
+SRCS				= src/err.c \
+							src/file.c \
+							src/init.c
 OBJS				= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 CMD					= $(CMD_DIR)/$(PROGRAM).c
 RM					= rm -rf
