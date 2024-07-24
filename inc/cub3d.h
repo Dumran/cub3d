@@ -104,6 +104,7 @@ typedef struct s_ray
 typedef struct s_map
 {
 	char		*data;
+	char		**lines;
 	char		**map;
 }	t_map;
 
@@ -139,5 +140,27 @@ t_err		scr_img_init(t_game *game);
 
 // file
 bool		file_ext_validate(const char *path, const char *ext);
+
+// load
+t_err		game_load(t_game *game);
+char		**map_split_line(char *data);
+t_err		map_meta_load(t_game *game, size_t *row);
+t_err		map_meta_pass_empty(t_game *game, size_t *row);
+size_t		map_meta_key_len(t_meta key);
+t_err		img_load(t_game *game, t_img *img, char *path);
+t_err		texture_set_value(t_game *game, t_meta key, char *value);
+t_err		texture_load(t_game *game, t_meta key, char *line);
+t_err		map_meta_set_value(t_game *game, size_t row, int override[6]);
+t_meta		map_meta_get_key(char *line);
+
+// util
+size_t		str_arr_len(char **arr);
+void		str_arr_dispose(char **arr);
+bool		ft_isspace(const int c);
+char		*ft_strtrim_x(const char *str, const char *set);
+int			strany(char *s, int (*f)(unsigned int idx, char *str, void *p), void *pass);
+int			is_not_digit_x(unsigned int idx, char *curr, void *param);
+bool		rgb_validate(int rgb[3]);
+
 
 #endif

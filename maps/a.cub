@@ -1,14 +1,12 @@
 
 
-SO ./textures/text2.xpm
-EA ./textures/text4.xpm
-NO ./textures/text1.xpm
-WE ./textures/text3.xpm
+SO ./textures/t2.xpm
+EA ./textures/t4.xpm
+NO ./textures/t1.xpm
+WE ./textures/t3.xpm
 
 
-
-
-F 2,255,100
+F	2,255,100
 C 255,225,255
 
 

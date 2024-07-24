@@ -9,7 +9,9 @@ INC_DIR			= -Iinc -I$(MLX_DIR) -I$(LIBFT_DIR)
 NAME				= $(BIN_DIR)/$(PROGRAM)
 SRCS				= src/err.c \
 							src/file.c \
-							src/init.c
+							src/init.c \
+							src/load.c \
+							src/util.c
 OBJS				= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 CMD					= $(CMD_DIR)/$(PROGRAM).c
 RM					= rm -rf

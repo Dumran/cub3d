@@ -12,10 +12,9 @@ int	main(int ac, char **av)
 	err = game_init(game, av[1]);
 	if (err)
 		return (FAILURE);
-	dprintf(2, "[DEBUG]: str: %s\n", game->map.data);
-	// err = game_load(game);
-	// if (err)
-	// 	return (FAILURE);
+	err = game_load(game);
+	if (err)
+		return (FAILURE);
 	// err = game_loop(game);
 	// if (err)
 	// 	return (FAILURE);
