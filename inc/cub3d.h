@@ -44,6 +44,7 @@
 # define M_FLOOR		'0'
 
 # define W_SPACE_SET	" \t\v\f\r\n"
+# define W_INNER_SET	"0NSWE"
 
 # define ESTR_ASSERT_	"unexpected error"
 
@@ -143,24 +144,42 @@ bool		file_ext_validate(const char *path, const char *ext);
 
 // load
 t_err		game_load(t_game *game);
-char		**map_split_line(char *data);
+
+// map meta
 t_err		map_meta_load(t_game *game, size_t *row);
 t_err		map_meta_pass_empty(t_game *game, size_t *row);
-size_t		map_meta_key_len(t_meta key);
-t_err		img_load(t_game *game, t_img *img, char *path);
-t_err		texture_set_value(t_game *game, t_meta key, char *value);
-t_err		texture_load(t_game *game, t_meta key, char *line);
-t_err		map_meta_set_value(t_game *game, size_t row, int override[6]);
+t_err		map_meta_set_value(t_game *game, size_t row, int override[6], int meta_count);
 t_meta		map_meta_get_key(char *line);
+t_err		texture_load(t_game *game, t_meta key, char *line);
+
+// map meta util
+t_err		texture_set_value(t_game *game, t_meta key, char *value);
+t_err		img_load(t_game *game, t_img *img, char *path);
+t_err		color_load(t_game *game, int *color, char *rgb_str);
+size_t		map_meta_key_len(t_meta key);
+char		**map_split_line(char *data);
+
+// map data
+t_err		map_data_load(t_game *game, size_t *row);
+t_err		map_data_validate(t_game *game);
+char		**map_data_create_test_map(t_game *game, size_t w, size_t h);
+t_err		map_data_copy_map(t_game *game, size_t w, size_t h, char **test_map);
+t_err		map_data_validate_test_map(char **test_map, size_t w, size_t h);
 
 // util
+int			is_not_digit_x(unsigned int idx, char *curr, void *param);
+int			is_not_x_or_one(unsigned int idx, char *curr, void *param);
+bool		rgb_validate(int rgb[3]);
+int			is_not_x_or_one_vertical(unsigned int idx, char *curr, void *param);
+
+
+// util str
 size_t		str_arr_len(char **arr);
 void		str_arr_dispose(char **arr);
 bool		ft_isspace(const int c);
 char		*ft_strtrim_x(const char *str, const char *set);
 int			strany(char *s, int (*f)(unsigned int idx, char *str, void *p), void *pass);
-int			is_not_digit_x(unsigned int idx, char *curr, void *param);
-bool		rgb_validate(int rgb[3]);
+
 
 
 #endif
