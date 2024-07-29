@@ -9,8 +9,9 @@ INC_DIR			= -Iinc -I$(MLX_DIR) -I$(LIBFT_DIR)
 NAME				= $(BIN_DIR)/$(PROGRAM)
 SRCS				= src/err.c \
 							src/file.c \
+							src/game.c \
 							src/init.c \
-							src/load.c \
+							src/map_data_util.c \
 							src/map_data.c \
 							src/map_meta_util.c \
 							src/map_meta.c \
@@ -47,7 +48,7 @@ all: $(MLX) $(LIBFT)
 	@mkdir -p build/bin
 	@$(MAKE) $(NAME)
 
-$(NAME): $(CMD) $(OBJS)
+$(NAME): $(CMD) $(OBJS) inc/cub3d.h
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) $(INC_DIR) $(MLX_FLAGS) $(LIBFT_FLAGS) $(CMD) $(OBJS) -o $(NAME)
 

@@ -19,7 +19,9 @@ int	is_not_x_or_one_vertical(unsigned int idx, char *curr, void *param)
 {
 	(void)idx;
 	(void)param;
-	return ((idx == 0 && *curr != '1') && (*curr && !*(curr + 1) && *curr != 'X'));
+	if (idx == 0 || (*curr && !*(curr + 1)))
+		return (*curr != '1' && *curr != 'X');
+	return (false);
 }
 
 bool	rgb_validate(int rgb[3])
@@ -32,4 +34,11 @@ bool	rgb_validate(int rgb[3])
 			rgb[0] >= 0 &&
 			rgb[1] >= 0 &&
 			rgb[2] >= 0);
+}
+
+bool	is_character(const char c)
+{
+	if (c == M_NORTH || c == M_SOUTH || c == M_EAST || c == M_WEST)
+		return (true);
+	return (false);
 }

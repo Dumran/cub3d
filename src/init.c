@@ -3,24 +3,6 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-t_err	game_init(t_game *game, const char *path)
-{
-	t_err	err;
-
-	if (!game || !path)
-		return (perr(ESTR_ASSERT_));
-	err = map_init(game, path);
-	if (err)
-		return (FAILURE);
-	err = mlx_init_x(game);
-	if (err)
-		return (FAILURE);
-	err = scr_img_init(game);
-	if (err)
-		return (FAILURE);
-	return (SUCCESS);
-}
-
 t_err	map_init(t_game *game, const char *path)
 {
 	char	*line;
@@ -35,7 +17,7 @@ t_err	map_init(t_game *game, const char *path)
 		return (perr("map file cannot be opened"));
 	game->map.data = ft_strdup("");
 	if (!game->map.data)
-		return (close(fd), perr("map game->map.dataer cannot be allocated"));
+		return (close(fd), perr("map game->map.data cannot be allocated"));
 	while (true)
 	{
 		line = get_next_line(fd);
@@ -79,4 +61,16 @@ t_err	scr_img_init(t_game *game)
 	game->scr_img.width = WIN_X;
 	game->scr_img.height = WIN_Y;
 	return (SUCCESS);
+}
+
+t_err	mlx_hook_init_x(t_game *game)
+{
+	if (!game || !game->map.map || !game->mlx || !game->win)
+		return (perr(ESTR_ASSERT_));
+	mlx_do_key_autorepeatoff(game->mlx);
+	mlx_hook(game->win, ON_QUIT_TAP, 0, on_game_quit, game);
+	mlx_hook(game->win, 2, (1L << 0), on_key_press, game);
+	mlx_hook(game->win, 3, (1L << 1), on_key_release, game);
+	// game->resolution = game->textures[0].width;
+	mlx_loop_hook(game->mlx, on_loop, game);
 }

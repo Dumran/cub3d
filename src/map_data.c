@@ -50,6 +50,10 @@ t_err	map_data_validate(t_game *game)
 		height++;
 		i++;
 	}
+	if (!map_data_validate_char(game))
+		return (perr("invalid map character"));
+	if (map_data_count_player(game) != 1)
+		return (perr("invalid player count"));
 	test_map = map_data_create_test_map(game, width, height);
 	if (!test_map)
 		return (perr("test map cannot be created"));
@@ -111,6 +115,7 @@ t_err	map_data_copy_map(t_game *game, size_t w, size_t h, char **test_map)
 	return (test_map[i] = NULL, SUCCESS);
 }
 
+
 t_err	map_data_validate_test_map(char **test_map, size_t w, size_t h)
 {
 	size_t i;
@@ -119,7 +124,7 @@ t_err	map_data_validate_test_map(char **test_map, size_t w, size_t h)
 	if (!test_map)
 		return (perr(ESTR_ASSERT_));
 	i = 0;
-	if (strany(test_map[i], is_not_x_or_one, NULL) &&
+	if (strany(test_map[i], is_not_x_or_one, NULL) ||
 		strany(test_map[h - 1], is_not_x_or_one, NULL))
 		return (perr("invalid map border (horizontal)"));
 	while (test_map[i])
@@ -132,10 +137,10 @@ t_err	map_data_validate_test_map(char **test_map, size_t w, size_t h)
 		while (j < w - 1)
 		{
 			if (test_map[i][j] == 'X' &&
-				(!ft_strncmp(W_INNER_SET, &test_map[i - 1][j], ft_strlen(W_INNER_SET)) ||
-				!ft_strncmp(W_INNER_SET, &test_map[i + 1][j], ft_strlen(W_INNER_SET)) ||
-				!ft_strncmp(W_INNER_SET, &test_map[i][j - 1], ft_strlen(W_INNER_SET)) ||
-				!ft_strncmp(W_INNER_SET, &test_map[i][j + 1], ft_strlen(W_INNER_SET))))
+				(str_include(W_INNER_SET, test_map[i - 1][j]) ||
+				str_include(W_INNER_SET, test_map[i + 1][j]) ||
+				str_include(W_INNER_SET, test_map[i][j - 1]) ||
+				str_include(W_INNER_SET, test_map[i][j + 1])))
 				return (perr("invalid map unclosed"));
 			j++;
 		}

@@ -14,22 +14,6 @@ size_t	str_arr_len(char **arr)
 	return (i);
 }
 
-void	str_arr_dispose(char **arr)
-{
-	char	**iter;
-	size_t	i;
-
-	i = 0;
-	iter = arr;
-	while (iter[i])
-	{
-		free(iter[i]);
-		iter[i] = NULL;
-		i++;
-	}
-	free(arr);
-}
-
 bool	ft_isspace(const int c)
 {
 	return (c == ' ' ||
@@ -65,4 +49,21 @@ int	strany(char *s, int (*f)(unsigned int idx, char *str, void *p), void *pass)
 		i++;
 	}
 	return (0);
+}
+
+
+bool	str_include(const char *str, const char c)
+{
+	size_t	i;
+
+	if (!str)
+		return (false);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (true);
+		i++;
+	}
+	return (false);
 }

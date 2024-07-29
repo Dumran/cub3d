@@ -15,8 +15,8 @@ int	main(int ac, char **av)
 	err = game_load(game);
 	if (err)
 		return (FAILURE);
-	// err = game_loop(game);
-	// if (err)
-	// 	return (FAILURE);
+	err = game_loop(game);
+	if (err)
+		return (FAILURE);
 	return (FAILURE);
 }
