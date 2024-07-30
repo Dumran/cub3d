@@ -145,7 +145,6 @@ typedef struct s_game
 	t_player	player;
 	t_ray		ray;
 	t_texture	texture;
-	int			*mlx_o_game;
 }	t_game;
 
 // dispose
@@ -223,9 +222,9 @@ void		set_wall_hit(t_game *game);
 void		set_ray_dist(t_game *game);
 
 // texture
-void		draw_wall_side(t_game *game, int i);
 void		set_texture_values(t_game *game);
-void		draw_wall_texture(t_game *game, int i, int tex_index);
+void		draw_wall_texture(t_game *game, int i, t_img *img);
+void		draw_wall_side(t_game *game, int i);
 
 // util str
 size_t		str_arr_len(char **arr);

@@ -14,16 +14,22 @@ void	fill_floor_and_ceiling(t_game *game)
 	{
 		w = 0;
 		while (w < game->scr_img.width)
-			game->scr_img.addr[h * game->scr_img.width + w++] = \
-				game->texture.ceiling; // might get error
+		{
+			game->scr_img.addr[h * game->scr_img.width + w] = \
+				game->texture.ceiling;
+			w++;
+		}
 		h++;
 	}
 	while (h < game->scr_img.height)
 	{
 		w = 0;
 		while (w < game->scr_img.width)
-			game->scr_img.addr[h * game->scr_img.width + w++] = \
-				game->texture.ceiling;
+		{
+			game->scr_img.addr[h * game->scr_img.width + w] = \
+				game->texture.floor;
+			w++;
+		}
 		h++;
 	}
 }
@@ -49,7 +55,7 @@ void	ray_casting(t_game *game)
 		send_ray(game, i);
 		i++;
 	}
-	mlx_put_image_to_window(game->mlx, game->win, game->scr_img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win, game->scr_img.img, 0, 0);
 }
 
 void	set_direction(t_game *game)
@@ -88,13 +94,13 @@ void	set_wall_hit(t_game *game)
 		if (game->ray.s_dist.x < game->ray.s_dist.y)
 		{
 			game->ray.s_dist.x += game->ray.d_dist.x;
-			game->ray.a_map.ax += game->ray.a_step.x;
+			game->ray.a_map.ax += game->ray.a_step.ax;
 			game->ray.side = 0;
 		}
 		else
 		{
 			game->ray.s_dist.y += game->ray.d_dist.y;
-			game->ray.a_map.ay += game->ray.a_step.y;
+			game->ray.a_map.ay += game->ray.a_step.ay;
 			game->ray.side = 1;
 		}
 		if (game->map.map[game->ray.a_map.ax][game->ray.a_map.ay] == M_WALL)
@@ -104,13 +110,16 @@ void	set_wall_hit(t_game *game)
 
 void	set_ray_dist(t_game *game)
 {
+	printf("%f\n", game->ray.s_dist.x);
+	printf("%f\n", game->ray.s_dist.y);
 	if (game->ray.side == 0)
 		game->ray.perp_wall_dist = game->ray.s_dist.x - game->ray.d_dist.x;
 	else
 		game->ray.perp_wall_dist = game->ray.s_dist.y - game->ray.d_dist.y;
+	printf("%f\n", game->ray.perp_wall_dist);
 	if (game->ray.perp_wall_dist < 0.001)
 		game->ray.perp_wall_dist += 0.001;
-	game->ray.line_height = (int)(WIN_Y / game->ray.perp_wall_dist * 2);
+	game->ray.line_height = (int) (WIN_Y / game->ray.perp_wall_dist * 2);
 	game->ray.draw_start = -game->ray.line_height / 2 + WIN_Y / 2;
 	if (game->ray.draw_start < 0)
 		game->ray.draw_start = 0;

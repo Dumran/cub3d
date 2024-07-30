@@ -81,8 +81,6 @@ char	**map_data_create_test_map(t_game *game, size_t w, size_t h)
 	if (map_data_copy_map(game, w, h, test_map))
 		return ((str_arr_dispose(test_map), NULL));
 	i = 0;
-	for (int i = 0; test_map[i]; i++)
-		dprintf(2, "[DEBUG]: %s\n", test_map[i]);
 	return (test_map);
 }
 

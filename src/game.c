@@ -17,9 +17,6 @@ t_err	game_init(t_game *game, const char *path)
 	err = scr_img_init(game);
 	if (err)
 		return (FAILURE);
-	err = mlx_hook_init_x(game);
-	if (err)
-		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -41,6 +38,9 @@ t_err	game_load(t_game *game)
 	if (err)
 		return (FAILURE);
 	err = map_data_validate(game);
+	if (err)
+		return (FAILURE);
+	err = mlx_hook_init_x(game);
 	if (err)
 		return (FAILURE);
 	return (SUCCESS);

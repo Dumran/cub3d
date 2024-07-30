@@ -65,13 +65,12 @@ t_err	scr_img_init(t_game *game)
 
 t_err	mlx_hook_init_x(t_game *game)
 {
-	if (!game || !game->map.map || !game->mlx || !game->win)
+	if (!game || !game->mlx || !game->win)
 		return (perr(ESTR_ASSERT_));
 	mlx_do_key_autorepeatoff(game->mlx);
 	mlx_hook(game->win, ON_QUIT_TAP, 0, on_game_quit, game);
 	mlx_hook(game->win, 2, (1L << 0), on_key_press, game);
 	mlx_hook(game->win, 3, (1L << 1), on_key_release, game);
-	// game->resolution = game->textures[0].width;
 	mlx_loop_hook(game->mlx, on_loop, game);
 	return (SUCCESS);
 }
