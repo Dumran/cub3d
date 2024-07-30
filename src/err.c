@@ -1,5 +1,6 @@
 #include "cub3d.h"
-#include <stdio.h>
+#include "libft.h"
+#include <unistd.h>
 
 t_err	perr(const char *msg)
 {

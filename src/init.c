@@ -73,4 +73,5 @@ t_err	mlx_hook_init_x(t_game *game)
 	mlx_hook(game->win, 3, (1L << 1), on_key_release, game);
 	// game->resolution = game->textures[0].width;
 	mlx_loop_hook(game->mlx, on_loop, game);
+	return (SUCCESS);
 }

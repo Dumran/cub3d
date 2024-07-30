@@ -101,11 +101,22 @@ typedef struct s_player
 
 typedef struct s_ray
 {
+	int			wall;
+	int			side;
+	int			tex_x;
 	t_vec		plane;
 	t_vec		dir;
+	t_vec		a_step;
 	t_vec		a_map;
+	t_vec		s_dist;
 	t_vec		d_dist;
 	double		camera_x;
+	double		perp_wall_dist;
+	double		tex_step;
+	double		tex_pos;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
 }	t_ray;
 
 typedef struct s_map
@@ -134,6 +145,7 @@ typedef struct s_game
 	t_player	player;
 	t_ray		ray;
 	t_texture	texture;
+	int			*mlx_o_game;
 }	t_game;
 
 // dispose
@@ -152,6 +164,7 @@ bool		file_ext_validate(const char *path, const char *ext);
 t_err		game_init(t_game *game, const char *path);
 t_err		game_load(t_game *game);
 t_err		game_loop(t_game *game);
+
 
 // hook
 int			on_game_quit(t_game *game);
@@ -204,6 +217,15 @@ int			map_data_count_player(t_game *game);
 // render
 void		fill_floor_and_ceiling(t_game *game);
 void		ray_casting(t_game *game);
+void		send_ray(t_game *game, int i);
+void		set_direction(t_game *game);
+void		set_wall_hit(t_game *game);
+void		set_ray_dist(t_game *game);
+
+// texture
+void		draw_wall_side(t_game *game, int i);
+void		set_texture_values(t_game *game);
+void		draw_wall_texture(t_game *game, int i, int tex_index);
 
 // util str
 size_t		str_arr_len(char **arr);

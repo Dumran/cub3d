@@ -50,5 +50,6 @@ t_err	game_loop(t_game *game)
 {
 	if (!game || !game->map.map)
 		return (perr(ESTR_ASSERT_));
-
+	mlx_loop(game->mlx);
+	return (FAILURE);
 }

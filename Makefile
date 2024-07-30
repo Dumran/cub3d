@@ -7,14 +7,20 @@ BUILD_DIR		= build
 BIN_DIR			= $(BUILD_DIR)/bin
 INC_DIR			= -Iinc -I$(MLX_DIR) -I$(LIBFT_DIR)
 NAME				= $(BIN_DIR)/$(PROGRAM)
-SRCS				= src/err.c \
+SRCS				=	src/dispose.c \
+							src/err.c \
 							src/file.c \
 							src/game.c \
+							src/hook.c \
 							src/init.c \
+							src/key_util.c \
+							src/key.c \
 							src/map_data_util.c \
 							src/map_data.c \
 							src/map_meta_util.c \
 							src/map_meta.c \
+							src/render.c \
+							src/texture.c \
 							src/util_str.c \
 							src/util.c
 OBJS				= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)

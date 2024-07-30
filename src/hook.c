@@ -1,4 +1,6 @@
 #include "cub3d.h"
+#include "mlx.h"
+#include <stdlib.h>
 
 int	on_game_quit(t_game *game)
 {

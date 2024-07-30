@@ -1,5 +1,6 @@
 #include "cub3d.h"
 #include "mlx.h"
+#include <stdlib.h>
 
 void	game_dispose(t_game *game)
 {
@@ -25,8 +26,6 @@ void	texture_dispose(t_game *game)
 
 void	map_dispose(t_map *map)
 {
-	int	i;
-
 	if (!map)
 		return ;
 	free(map->data);
