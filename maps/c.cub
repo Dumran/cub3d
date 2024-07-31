@@ -1,12 +1,12 @@
 
-SO ./textures/t2.xpm
-EA ./textures/t4.xpm
-NO ./textures/t1.xpm
-WE ./textures/t3.xpm
+SO ./textures/back.xpm
+EA ./textures/side.xpm
+NO ./textures/front.xpm
+WE ./textures/side.xpm
 
 
-F 2,255,100
-C 255,225,255
+F 56,94,0
+C 130,200,228
 
 
 
