@@ -49,13 +49,17 @@ t_err	color_load(t_game *game, int *color, char *rgb_str)
 {
 	char	**rgb_arr;
 	int		rgb[3];
+	char	*color_str;
 
 	if (!game || !color || !rgb_str)
 		return (perr(ESTR_ASSERT_));
-	rgb_str = ft_strtrim(rgb_str + 2, W_SPACE_SET);
-	if (!rgb_str)
+
+	color_str = ft_strtrim(rgb_str + 2, W_SPACE_SET);
+	free(rgb_str);
+	if (!color_str)
 		return (perr("map color data cannot be trimmed"));
-	rgb_arr = ft_split(rgb_str, ',');
+	rgb_arr = ft_split(color_str, ',');
+	free(color_str);
 	if (!rgb_arr)
 		return (FAILURE);
 	if (str_arr_len(rgb_arr) != 3)

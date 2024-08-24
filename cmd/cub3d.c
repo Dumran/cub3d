@@ -1,5 +1,5 @@
 #include "cub3d.h"
-
+#include <stdlib.h>
 int	main(int ac, char **av)
 {
 	t_game	*game;
@@ -19,4 +19,9 @@ int	main(int ac, char **av)
 	if (err)
 		return (FAILURE);
 	return (FAILURE);
+}
+
+__attribute__((destructor)) void	destructor(void)
+{
+	system("leaks cub3d");
 }

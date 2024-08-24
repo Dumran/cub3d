@@ -86,8 +86,37 @@ void	set_direction(t_game *game)
 	}
 }
 
+#include "string.h"
+
+int	tab_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+int	get_max_map_width(t_game *game)
+{
+	int	i;
+	int	max;
+
+	i = 0;
+	max = 0;
+	while (i < tab_len(game->map.map))
+	{
+		if ((int)strlen(game->map.map[i]) > max)
+			max = strlen(game->map.map[i]);
+		i++;
+	}
+	return (max);
+}
+
 void	set_wall_hit(t_game *game)
 {
+	int width = get_max_map_width(game);
 	game->ray.wall = 0;
 	while (!game->ray.wall)
 	{
@@ -103,20 +132,21 @@ void	set_wall_hit(t_game *game)
 			game->ray.a_map.ay += game->ray.a_step.ay;
 			game->ray.side = 1;
 		}
-		if (game->map.map[game->ray.a_map.ax][game->ray.a_map.ay] == M_WALL)
+		if (game->ray.a_map.ax >= tab_len(game->map.map))
+			game->ray.wall = 1;
+		else if (game->ray.a_map.ay >= width)
+			game->ray.wall = 1;
+		else if (game->map.map[game->ray.a_map.ax][game->ray.a_map.ay] == M_WALL)
 			game->ray.wall = 1;
 	}
 }
 
 void	set_ray_dist(t_game *game)
 {
-	printf("%f\n", game->ray.s_dist.x);
-	printf("%f\n", game->ray.s_dist.y);
 	if (game->ray.side == 0)
 		game->ray.perp_wall_dist = game->ray.s_dist.x - game->ray.d_dist.x;
 	else
 		game->ray.perp_wall_dist = game->ray.s_dist.y - game->ray.d_dist.y;
-	printf("%f\n", game->ray.perp_wall_dist);
 	if (game->ray.perp_wall_dist < 0.001)
 		game->ray.perp_wall_dist += 0.001;
 	game->ray.line_height = (int) (WIN_Y / game->ray.perp_wall_dist * 2);
