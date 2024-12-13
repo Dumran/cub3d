@@ -37,6 +37,7 @@ t_err	map_data_validate(t_game *game)
 	size_t	width;
 	size_t	height;
 	size_t	i;
+	t_err	err;
 
 	if (!game || !game->map.map)
 		return (perr(ESTR_ASSERT_));
@@ -57,7 +58,15 @@ t_err	map_data_validate(t_game *game)
 	test_map = map_data_create_test_map(game, width, height);
 	if (!test_map)
 		return (perr("test map cannot be created"));
-	return (map_data_validate_test_map(test_map, width, height));
+	err = map_data_validate_test_map(test_map, width, height);
+	int j = 0;
+	while (test_map[j])
+	{
+		free(test_map[j]);
+		j++;
+	}
+	free(test_map);
+	return (err);
 }
 
 char	**map_data_create_test_map(t_game *game, size_t w, size_t h)

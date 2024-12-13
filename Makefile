@@ -1,4 +1,4 @@
-CC					= clang
+CC					= gcc
 CFLAGS			=
 PROGRAM			= cub3d
 SRC_DIR			= src
@@ -84,3 +84,4 @@ re: fclean
 	$(MAKE) all
 
 .PHONY: all clean fclean re
+

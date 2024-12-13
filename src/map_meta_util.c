@@ -72,6 +72,7 @@ t_err	color_load(t_game *game, int *color, char *rgb_str)
 	rgb[1] = ft_atoi(rgb_arr[1]);
 	rgb[2] = ft_atoi(rgb_arr[2]);
 	str_arr_dispose(rgb_arr);
+	free(rgb_arr);
 	if (!rgb_validate(rgb))
 		return (FAILURE);
 	*color = (rgb[0] << 16) | (rgb[1] << 8) | (rgb[2] << 0);
